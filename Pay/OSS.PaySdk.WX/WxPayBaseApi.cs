@@ -199,14 +199,6 @@ namespace OSS.PaySdk.Wx
             return Md5.EncryptHexString(string.Concat(encryptStr, "&key=", ApiConfig.Key)).ToUpper();
         }
 
-        /// <summary>
-        /// 获取时间戳，Unixtimestamp秒数
-        /// </summary>
-        /// <returns></returns>
-        public long GetTimeStamp()
-        {
-            return DateTime.Now.ToUtcSeconds();
-        }
 
         /// <summary>
         /// 生成签名,统一方法

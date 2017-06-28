@@ -39,11 +39,15 @@ namespace OSS.PaySdk.Ali.Pay.Mos
     /// </summary>
     public class ZAddAppTradeReq : ZPayBaseReq
     {
-        public ZAddAppTradeReq(string notifyUrl)
+        public ZAddAppTradeReq()
+        {
+            product_code = "QUICK_MSECURITY_PAY";
+        }
+
+        public ZAddAppTradeReq(string notifyUrl):this()
         {
             notify_url = notifyUrl;
         }
-
         /// <summary>   
         ///    String 可空 长度(128)  对一笔交易的具体描述信息。如果是多种商品，请将商品描述字符串累加传给body。 16G
         /// </summary>  
@@ -77,7 +81,7 @@ namespace OSS.PaySdk.Ali.Pay.Mos
         /// <summary>   
         ///    String 必填 长度(64)  销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
         /// </summary>  
-        public string product_code { get; set; }
+        public string product_code { get; }
 
         /// <summary>   
         ///    String 可空 长度(2)  商品主类型：0—虚拟类商品，1—实物类商品，注：虚拟类商品不支持使用花呗渠道

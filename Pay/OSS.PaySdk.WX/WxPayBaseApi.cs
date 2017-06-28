@@ -219,16 +219,7 @@ namespace OSS.PaySdk.Wx
             var sign = GetSign(encStr);
             return sign;
         }
-        
-        /// <summary>
-        /// 生成签名,统一方法
-        /// </summary>
-        /// <param name="encryptStr">不含key的参与签名串</param>
-        /// <returns></returns>
-        protected string GetSign(string encryptStr)
-        {
-            return Md5.EncryptHexString(string.Concat(encryptStr, "&key=", ApiConfig.Key)).ToUpper();
-        }
+
         #endregion
 
         #region  全局错误处理

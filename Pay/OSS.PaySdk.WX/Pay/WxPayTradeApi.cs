@@ -159,7 +159,34 @@ namespace OSS.PaySdk.Wx.Pay
 
             return await PostApiAsync<WxPayAuthCodeOpenIdResp>(url, dics);
         }
+        /// <summary>
+        /// 根据统一下单接口返回的对象，创建一个App客户端直接可用的参数对象。
+        /// </summary>
+        /// <param name="uiniOrderResp"></param>
+        /// <returns></returns>
+        public WxAppPrepayOrderInfoMo GetAppPrepayOrderInfoMo(WxAddPayUniOrderResp uiniOrderResp)
+        {
+            var wxAppPrepayOrderInfoMo = new WxAppPrepayOrderInfoMo
+            {
+                appid = uiniOrderResp.appid,
+                partnerid = uiniOrderResp.mch_id,
+                prepayid = uiniOrderResp.prepay_id,
+                noncestr = uiniOrderResp.nonce_str,
+                timestamp = DateTime.Now.ToUtcSeconds().ToString(),
+            };
 
+            var dic = new SortedDictionary<string, object>()
+            {
+                {"appid",wxAppPrepayOrderInfoMo.appid},
+                {"partnerid",wxAppPrepayOrderInfoMo.partnerid},
+                {"prepayid",wxAppPrepayOrderInfoMo.prepayid},
+                {"noncestr",wxAppPrepayOrderInfoMo.noncestr},
+                {"package",wxAppPrepayOrderInfoMo.package},
+                {"timestamp",wxAppPrepayOrderInfoMo.timestamp},
+            };
+            wxAppPrepayOrderInfoMo.sign = GetSign(dic);
+            return wxAppPrepayOrderInfoMo;
+        }
         #endregion
 
 

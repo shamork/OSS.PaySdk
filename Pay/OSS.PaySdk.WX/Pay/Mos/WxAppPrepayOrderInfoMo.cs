@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using OSS.Common.Extention;
-
 namespace OSS.PaySdk.Wx.Pay.Mos
 {
     /// <summary>
@@ -10,47 +6,37 @@ namespace OSS.PaySdk.Wx.Pay.Mos
     public class WxAppPrepayOrderInfoMo
     {
         /// <summary>
-        /// 使用统一下单接口的返回值，创建一个App立即可用的 <see cref="WxAppPrepayOrderInfoMo"/> 类的示例
+        /// 应用的Appid
         /// </summary>
-        /// <param name="t"></param>
-        /// <param name="wxapi"></param>
-        public WxAppPrepayOrderInfoMo(WxAddPayUniOrderResp t, WxPayTradeApi wxapi)
-        {
-            appid = t.appid;
-            partnerid = t.mch_id;
-            prepayid = t.prepay_id;
-            noncestr = t.nonce_str;
-            timestamp = DateTime.Now.ToUtcSeconds().ToString();
-            var dic = new SortedDictionary<string, object>()
-                {
-                    {"appid",appid},
-                    {"partnerid",partnerid},
-                    {"prepayid",prepayid},
-                    {"noncestr",noncestr},
-                    {"package",package},
-                    {"timestamp",timestamp},
-                };
-            sign = wxapi.GetSign(dic);
-        }
-
-        public string appid { get; private set; }
+        public string appid { get; set; }
         /// <summary>
         /// 也就是mchid
         /// </summary>
-        public string partnerid { get; private set; }
+        public string partnerid { get; set; }
+
         /// <summary>
-        /// 
+        /// 预付订单id
         /// </summary>
-        public string prepayid { get; private set; }
-        public string noncestr { get; private set; }
-        public string timestamp { get; private set; } = DateTime.Now.ToUtcSeconds().ToString();
+        public string prepayid { get; set; }
+
+        /// <summary>
+        /// 随机字符串
+        /// </summary>
+        public string noncestr { get; set; }
+
+        /// <summary>
+        /// 时间戳
+        /// </summary>
+        public string timestamp { get; set; }
 
         /// <summary>
         /// 常量 "Sign=WXPay"
         /// </summary>
-        public string package { get; private set; } = "Sign=WXPay";
+        public string package { get; set; }
 
-        public string sign { get; private set; }
-
+        /// <summary>
+        /// 签名
+        /// </summary>
+        public string sign { get; set; }
     }
 }

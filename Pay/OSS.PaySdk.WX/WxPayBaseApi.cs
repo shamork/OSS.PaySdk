@@ -221,15 +221,24 @@ namespace OSS.PaySdk.Wx
         /// <returns></returns>
         public string GetSign(SortedDictionary<string, object> xmlDirs)
         {
-            var encStr = string.Join("&",
-                xmlDirs.Select(
-                    k =>
-                    {
-                        var str = k.Value?.ToString();
-                        return string.IsNullOrEmpty(str)
-                            ? string.Empty
-                            : string.Concat(k.Key, "=", str);
-                    }));
+            var sb = new StringBuilder();
+            var first = true;
+
+            foreach (var d in xmlDirs.Where(d => d.Key != "sign" && !string.IsNullOrEmpty(d.Value?.ToString())))
+            {
+                if (first)
+                {
+                    first = false;
+                    sb.AppendFormat("{0}={1}", d.Key, d.Value);
+                }
+                else
+                {
+                    sb.AppendFormat("&{0}={1}", d.Key, d.Value);
+                }
+            }
+
+
+            var encStr = sb.ToString();
             var sign = GetSign(encStr);
             return sign;
         }

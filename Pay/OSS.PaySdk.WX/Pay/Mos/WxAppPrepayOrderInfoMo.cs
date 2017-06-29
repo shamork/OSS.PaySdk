@@ -32,7 +32,7 @@ namespace OSS.PaySdk.Wx.Pay.Mos
         /// <summary>
         /// 常量 "Sign=WXPay"
         /// </summary>
-        public string package { get; set; }
+        public string package { get; set; } = "Sign=WXPay";
 
         /// <summary>
         /// 签名

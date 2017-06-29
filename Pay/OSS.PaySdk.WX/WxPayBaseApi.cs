@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using OSS.Common.ComModels;
@@ -39,7 +40,7 @@ namespace OSS.PaySdk.Wx
         /// 微信api接口地址
         /// </summary>
         protected const string m_ApiUrl = "https://api.mch.weixin.qq.com";
-     
+
         #region  处理基本配置
 
         /// <summary>
@@ -116,17 +117,30 @@ namespace OSS.PaySdk.Wx
             XmlDocument resultXml = null;
             var dics = XmlDicHelper.ChangXmlToDir(contentStr, ref resultXml);
 
-            var t = new T {RespXml = resultXml};
+            var t = new T { RespXml = resultXml };
             t.FromResContent(dics);
 
             if (dics.ContainsKey("sign"))
             {
-                var encryptStr = string.Join("&", dics.Select(d =>
+                var sb = new StringBuilder();
+                var first = true;
+
+                foreach (var d in dics.Where(d => d.Key != "sign" && !string.IsNullOrEmpty(d.Value)))
                 {
-                    if (d.Key != "sign" && !string.IsNullOrEmpty(d.Value))
-                        return string.Concat(d.Key, "=", d.Value);
-                    return string.Empty;
-                }));
+                    if (first)
+                    {
+                        first = false;
+                        sb.AppendFormat("{0}={1}", d.Key, d.Value);
+                    }
+                    else
+                    {
+                        sb.AppendFormat("&{0}={1}", d.Key, d.Value);
+                    }
+                }
+
+
+                var encryptStr = sb.ToString();
+
                 var signStr = GetSign(encryptStr);
 
                 if (signStr != t.sign)
@@ -162,7 +176,7 @@ namespace OSS.PaySdk.Wx
         /// <param name="dirformat">生成签名后对字典发送前的操作，例如urlencode操作</param>
         /// <returns></returns>
         protected async Task<T> PostApiAsync<T>(string addressUrl, SortedDictionary<string, object> xmlDirs,
-            Func<HttpResponseMessage, Task<T>> funcFormat = null,HttpClient client=null,Action<SortedDictionary<string, object>> dirformat=null) where T : WxPayBaseResp, new()
+            Func<HttpResponseMessage, Task<T>> funcFormat = null, HttpClient client = null, Action<SortedDictionary<string, object>> dirformat = null) where T : WxPayBaseResp, new()
         {
             xmlDirs.Add("appid", ApiConfig.AppId);
             xmlDirs.Add("mch_id", ApiConfig.MchId);
@@ -177,7 +191,7 @@ namespace OSS.PaySdk.Wx
                 CustomBody = xmlDirs.ProduceXml()
             };
 
-            return await RestCommonAsync<T>(req, funcFormat,client);
+            return await RestCommonAsync<T>(req, funcFormat, client);
         }
 
         /// <summary>
@@ -297,7 +311,7 @@ namespace OSS.PaySdk.Wx
             if (_client != null) return _client;
 
             var reqHandler = new HttpClientHandler();
-            ApiConfig.SetCertificata?.Invoke(reqHandler,new X509Certificate2(ApiConfig.CertPath,ApiConfig.CertPassword));
+            ApiConfig.SetCertificata?.Invoke(reqHandler, new X509Certificate2(ApiConfig.CertPath, ApiConfig.CertPassword));
             _client = new HttpClient(reqHandler);
             return _client;
         }

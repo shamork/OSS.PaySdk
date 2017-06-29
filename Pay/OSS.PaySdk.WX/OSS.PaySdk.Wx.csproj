@@ -19,11 +19,13 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard1.3\OSS.PayCenter.WX.xml</DocumentationFile>
+    <DocumentationFile>..\bin\Debug\netstandard1.3\OSS.PayCenter.WX.xml</DocumentationFile>
+    <OutputPath>..\bin\Debug\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.3\OSS.PaySdk.Wx.xml</DocumentationFile>
+    <DocumentationFile>..\bin\Release\netstandard1.3\OSS.PaySdk.Wx.xml</DocumentationFile>
+    <OutputPath>..\bin\Release\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

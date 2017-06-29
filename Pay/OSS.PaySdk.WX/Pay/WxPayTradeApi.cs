@@ -173,6 +173,7 @@ namespace OSS.PaySdk.Wx.Pay
                 prepayid = uiniOrderResp.prepay_id,
                 noncestr = uiniOrderResp.nonce_str,
                 timestamp = DateTime.Now.ToUtcSeconds().ToString(),
+                package = "Sign=WXPay",
             };
 
             var dic = new SortedDictionary<string, object>()

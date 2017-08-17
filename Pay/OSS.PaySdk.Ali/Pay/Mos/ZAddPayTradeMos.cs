@@ -430,6 +430,18 @@ namespace OSS.PaySdk.Ali.Pay.Mos
     public class ZPayCallBackResp
     {
         /// <summary>   
+        ///   auth_app_id
+        /// </summary>  
+        public string auth_app_id { get; set; }
+        /// <summary>   
+        ///   1.0
+        /// </summary>  
+        public string version { get; set; }
+        /// <summary>   
+        ///    utf-8
+        /// </summary>  
+        public string charset { get; set; }
+        /// <summary>   
         ///    通知时间 Date 长度(是)  通知的发送时间。格式为yyyy-MM-dd 2015-14-27 15:45:58
         /// </summary>  
         public string notify_time { get; set; }

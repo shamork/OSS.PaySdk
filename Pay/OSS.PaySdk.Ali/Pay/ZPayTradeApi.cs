@@ -69,7 +69,7 @@ namespace OSS.PaySdk.Ali.Pay
             var dicsRes = GetReqBodyDics(apiMethod, req);
             if (!dicsRes.IsSuccess())
                 return dicsRes.ConvertToResultOnly<string>();
-            
+
             return new ResultMo<string>(ConvertDicToEncodeReqBody(dicsRes.data));
         }
 
@@ -87,7 +87,7 @@ namespace OSS.PaySdk.Ali.Pay
             return new ResultMo<string>(BuildFormHtml(dicsRes.data));
         }
 
-        private  string BuildFormHtml(IDictionary<string, string> dics)
+        private string BuildFormHtml(IDictionary<string, string> dics)
         {
             StringBuilder sbHtml = new StringBuilder();
             sbHtml.Append("<form id='alipaysubmit' name='alipaysubmit' action='" + m_ApiUrl + "?charset=" + ApiConfig.Charset +
@@ -167,7 +167,7 @@ namespace OSS.PaySdk.Ali.Pay
             var signType = formDics["sign_type"];
 
             formDics.Remove("sign");
-            formDics.Remove("sign_type");
+            //formDics.Remove("sign_type");
 
             var sortDics = new SortedDictionary<string, string>(formDics);
 
